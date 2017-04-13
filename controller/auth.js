@@ -4,7 +4,8 @@ const db = firebase.database();
 const ref = db.ref('/');
 
 module.exports.signup = (req, res) => {
-    let fullName = req.body.fullName;
+    let firstName = req.body.firstName;
+    let lastName = req.body.lastName;
     let email = req.body.email;
     let group = req.body.group;
     let password = req.body.password;
@@ -14,11 +15,12 @@ module.exports.signup = (req, res) => {
             let userId = user.uid;
             let userRefs = ref.child("users/" + userId);
             userRefs.set({
-                fullName: fullName,
+                firstName:firstName,
+                lastName:lastName,
                 email: email,
                 userId: userId
             });
-            res.redirect('/dashboard');
+            res.redirect('/addpost');
         }).catch((error) => {
             let errorCode = error.code;
             let errorMessage = error.message;
@@ -32,7 +34,7 @@ module.exports.signin = (req, res) => {
 
     auth.signInWithEmailAndPassword(email, password)
         .then((user) => {
-            res.redirect("dashboard");
+            res.redirect("addpost");
         }).catch((error) => {
             let errorCode = error.code;
             let errorMessage = error.message;
@@ -42,7 +44,7 @@ module.exports.signin = (req, res) => {
 
 module.exports.signOut = (req, res) => {
     auth.signOut().then(() => {
-        res.redirect('/signIn');
+        res.redirect('/');
     }, (error) => {
         let errorCode = error.code;
         let errorMessage = error.message;

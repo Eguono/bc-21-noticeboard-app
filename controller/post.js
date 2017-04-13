@@ -1,6 +1,4 @@
-const firebase = require("../helper/firebase.js");
-const db = firebase.database();
-const ref = db.ref('/');
+
 
 const firebase = require('../helper/firebase.js');
 const db = firebase.database();
@@ -13,14 +11,13 @@ module.exports.postArticle = (req, res) => {
     let title = req.body.title;
     let post = req.body.post;
     let userId = user.uid;
-    let group = group;
 
     if (user) {
-        ref.child('users/' + userId + '/fullName').once('value', (snapShot) => {
+        ref.child('users/' + userId + '/firstName').once('value', (snapShot) => {
 
             let result = {};
             let data = {
-                displayName: snapShot.val(),
+                firstName: snapShot.val(),
                 title:title,
                 post: post,
             };
@@ -29,8 +26,7 @@ module.exports.postArticle = (req, res) => {
             let postRef = postsRef.push();
             let postKey = postRef.key;
 
-            result["post/" + group + "/" + postKey] = data;
-            result["mypost/" + "/" + userId + "/" + postKey] = data;
+            result["post/" + postKey] = data;
             console.log(result);
 
             ref.update(result).catch((err) => {
@@ -39,7 +35,7 @@ module.exports.postArticle = (req, res) => {
                 console.log(errorMessage);
                 return res.render('/article', { error: errorMessage })
 
-            }).then(res.redirect("/dashboard"))
+            }).then(res.redirect("/addpost"))
 
 
         }, (err) => {

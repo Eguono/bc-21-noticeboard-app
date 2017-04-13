@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const auth = require("./controller/auth.js");
+const post = require("./controller/post.js");
 
 const app = express();
 const route = express.Router();
@@ -26,12 +27,25 @@ app.route('/')
         res.render("index.ejs", { error: null })
     })
     .post(auth.signin);
+
+app.route('/signup')
+    .get((req, res) => {
+        //res.send('hello bootcamp');
+        res.render("signup.ejs", { error: null })
+    })
+    .post(auth.signup);
 //route for homepage
-app.get('/dashboard', function (req, res) {
-    res.sendFile(path, join(__dirname, '../index.html'))
-});
+
+app.route('/signOut')
+    .get(auth.signOut)
+app.route('/addpost')
+    .get((req, res) => {
+        //res.send('hello bootcamp');
+        res.render("addpost", { error: null })
+    })
+    .post(post.postArticle);
 //route for homepage
-app.get('/getPost', function (req, res) {
+app.get('/addPost', function (req, res) {
     res.sendFile(path, join(__dirname, '../index.html'))
 });
 
