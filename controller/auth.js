@@ -11,9 +11,17 @@ module.exports.signup = (req, res) => {
 
     auth.createUserWithEmailAndPassword(email, password)
         .then((user) => {
-
-        }).catch((error) => {
             let userId = user.uid;
-            let userRefs = ref.child("users/" + userId)
+            let userRefs = ref.child("users/" + userId);
+            userRefs.set({
+                fullName: fullName,
+                email: email,
+                userId: userId
+            });
+            res.redirect('/dashboard');
+        }).catch((error) => {
+            let errorCode = error.code;
+            let errorMessage = err.message;
+            return res.render('signup', { error: errorMessage })
         });
 }
