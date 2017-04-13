@@ -21,7 +21,7 @@ module.exports.signup = (req, res) => {
             res.redirect('/dashboard');
         }).catch((error) => {
             let errorCode = error.code;
-            let errorMessage = err.message;
+            let errorMessage = error.message;
             return res.render('signup', { error: errorMessage })
         });
 }
@@ -35,8 +35,8 @@ module.exports.signin = (req, res) => {
             res.redirect("dashboard");
         }).catch((error) => {
             let errorCode = error.code;
-            let errorMessage = err.message;
-            return res.render('signup', { error: errorMessage });
+            let errorMessage = error.message;
+            return res.render('index', { error: errorMessage });
         });
 }
 
