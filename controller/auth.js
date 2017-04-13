@@ -25,3 +25,18 @@ module.exports.signup = (req, res) => {
             return res.render('signup', { error: errorMessage })
         });
 }
+
+module.exports.signin = (req, res) => {
+    let email = req.body.email;
+    let password = req.body.password;
+
+    auth.signInWithEmailAndPassword(email, password)
+        .then((user) => {
+            res.redirect("dashboard");
+        }).catch((error) => {
+            let errorCode = error.code;
+            let errorMessage = err.message;
+            return res.render('signup', { error: errorMessage });
+        });
+}
+
